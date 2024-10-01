@@ -28,11 +28,15 @@ class homeScreen extends StatelessWidget {
           BottomNavigationBarItem(
             icon: (Icon(Icons.auto_graph_sharp)),
             label: 'Stats'
-          )
+          ),
+          BottomNavigationBarItem(
+            icon: (Icon(Icons.info_outline)),
+            label: 'About'
+          )  
         ]
       ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         shape: const CircleBorder(),
