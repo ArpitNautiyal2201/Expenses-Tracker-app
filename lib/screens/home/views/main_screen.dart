@@ -1,3 +1,4 @@
+import 'package:expenso_cal/data/data.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatelessWidget {
@@ -226,7 +227,7 @@ class MainScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: 3,
+                itemCount: transactionsData.length,
                 itemBuilder: (context, int i) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
@@ -248,8 +249,8 @@ class MainScreen extends StatelessWidget {
                                   Container(
                                     height: 40,
                                     width: 40,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.yellow,
+                                    decoration: BoxDecoration(
+                                      color: transactionsData[i]['Color'],
                                       shape: BoxShape.circle
                                     ),
                                   ),
@@ -257,9 +258,9 @@ class MainScreen extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(width: 14,),
-                              const Text(
-                                "Food",
-                                style: TextStyle(
+                              Text(
+                                transactionsData[i]['Name'],
+                                style: const TextStyle(
                                   fontSize: 13,
                                   color: Colors.black87,
                                   fontWeight: FontWeight.w600,
@@ -268,19 +269,20 @@ class MainScreen extends StatelessWidget {
                               
                             ],
                           ),
-                          const Column(
+                          Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "- ₹400",
-                                    style: TextStyle(
+                                    transactionsData[i]['Total Amount'],
+                                    style: const TextStyle(
                                       fontSize: 13,
                                       color: Colors.black87,
                                       fontWeight: FontWeight.w400,
                                     ), 
                                   ),
                                   Text(
-                                    "Today",
-                                    style: TextStyle(
+                                    transactionsData[i]['Date'],
+                                    style: const TextStyle(
                                       fontSize: 13,
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400,
