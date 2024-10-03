@@ -254,7 +254,8 @@ class MainScreen extends StatelessWidget {
                                       shape: BoxShape.circle
                                     ),
                                   ),
-                                  const Icon(Icons.food_bank_rounded,color: Colors.white,)
+                                  // const Icon(Icons.food_bank_rounded,color: Colors.white,)
+                                  transactionsData[i]['Icon'],
                                 ],
                               ),
                               const SizedBox(width: 14,),
