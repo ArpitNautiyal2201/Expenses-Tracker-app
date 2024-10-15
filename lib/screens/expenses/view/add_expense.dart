@@ -15,6 +15,17 @@ class _AddExpenseState extends State<AddExpense> {
   TextEditingController dateController = TextEditingController();
   DateTime dTime = DateTime.now();
 
+  List<String> category = [
+    'entertainment',
+    'food',
+    'home',
+    'other',
+    'pet',
+    'shopping',
+    'tech',
+    'travel',
+  ];
+
   @override
   void initState() {
     dateController.text = DateFormat('d/M/y, EEE').format(DateTime.now());
@@ -77,96 +88,113 @@ class _AddExpenseState extends State<AddExpense> {
                         return StatefulBuilder(builder: (context, setState) {
                           return AlertDialog(
                             title: const Text("Create Category"),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                TextFormField(
-                                  // controller: dateController,
-                                  decoration: InputDecoration(
-                                      isDense: true,
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      prefixIcon: const Icon(
-                                        Icons.abc,
-                                        size: 16.7,
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          borderSide: BorderSide.none),
-                                      hintText: "Name",
-                                      hintStyle: const TextStyle(
-                                        color: Colors.grey,
-                                      )),
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                TextFormField(
-                                  readOnly: true,
-                                  // controller: dateController,
-                                  decoration: InputDecoration(
-                                      isDense: true,
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      prefixIcon: const Icon(
-                                        Icons.color_lens,
-                                        size: 16.7,
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          borderSide: BorderSide.none),
-                                      hintText: "Color",
-                                      hintStyle: const TextStyle(
-                                        color: Colors.grey,
-                                      )),
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                TextFormField(
-                                  onTap: () {
-                                    setState(() {
-                                      isExpended = !isExpended;
-                                    });
-                                  },
-                                  readOnly: true,
-                                  // controller: dateController,
-                                  decoration: InputDecoration(
-                                      isDense: true,
-                                      filled: true,
-                                      suffixIcon:
-                                          const Icon(Icons.arrow_drop_down_outlined),
-                                      fillColor: Colors.white,
-                                      prefixIcon: const Icon(
-                                        FontAwesomeIcons.icons,
-                                        size: 16.7,
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderRadius: isExpended
-                                          ? const BorderRadius.only(
-                                              topLeft: Radius.circular(15),
-                                              topRight: Radius.circular(15)):BorderRadius.circular(15),
-                                          borderSide: BorderSide.none),
-                                      hintText: "Icon",
-                                      hintStyle: const TextStyle(
-                                        color: Colors.grey,
-                                      )),
-                                ),
-                                isExpended
-                                    ? Container(
-                                        width: double.infinity,
-                                        height: 200,
-                                        decoration: const BoxDecoration(
+                            content: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextFormField(
+                                    // controller: dateController,
+                                    decoration: InputDecoration(
+                                        isDense: true,
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        prefixIcon: const Icon(
+                                          Icons.abc,
+                                          size: 16.7,
+                                        ),
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            borderSide: BorderSide.none),
+                                        hintText: "Name",
+                                        hintStyle: const TextStyle(
+                                          color: Colors.grey,
+                                        )),
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  TextFormField(
+                                    readOnly: true,
+                                    // controller: dateController,
+                                    decoration: InputDecoration(
+                                        isDense: true,
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        prefixIcon: const Icon(
+                                          Icons.color_lens,
+                                          size: 16.7,
+                                        ),
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            borderSide: BorderSide.none),
+                                        hintText: "Color",
+                                        hintStyle: const TextStyle(
+                                          color: Colors.grey,
+                                        )),
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  TextFormField(
+                                    onTap: () {
+                                      setState(() {
+                                        isExpended = !isExpended;
+                                      });
+                                    },
+                                    readOnly: true,
+                                    // controller: dateController,
+                                    decoration: InputDecoration(
+                                        isDense: true,
+                                        filled: true,
+                                        suffixIcon: const Icon(
+                                            Icons.arrow_drop_down_outlined),
+                                        fillColor: Colors.white,
+                                        prefixIcon: const Icon(
+                                          FontAwesomeIcons.icons,
+                                          size: 16.7,
+                                        ),
+                                        border: OutlineInputBorder(
+                                            borderRadius: isExpended
+                                                ? const BorderRadius.only(
+                                                    topLeft: Radius.circular(15),
+                                                    topRight: Radius.circular(15))
+                                                : BorderRadius.circular(15),
+                                            borderSide: BorderSide.none),
+                                        hintText: "Icon",
+                                        hintStyle: const TextStyle(
+                                          color: Colors.grey,
+                                        )),
+                                  ),
+                                  isExpended
+                                      ? Container(
+                                          width: MediaQuery.of(context).size.width,
+                                          height: 200,
+                                          decoration: const BoxDecoration(
                                             color: Colors.white,
                                             borderRadius: BorderRadius.only(
                                                 bottomLeft: Radius.circular(15),
-                                                bottomRight:
-                                                    Radius.circular(15))),
-                                      )
-                                    : Container(),
-                              ],
+                                                bottomRight: Radius.circular(15)),
+                                          ),
+                                          child: GridView.builder(
+                                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                                              itemCount: category.length,
+                                              itemBuilder: (context, int i) {
+                                                return Container(
+                                                  width: 25,
+                                                  height: 25,
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: AssetImage(
+                                                              'assets/${category[i]}.png'))),
+                                                );
+                                              }),
+                                        )
+                                      : Container(),
+                                ],
+                              ),
                             ),
                           );
                         });
