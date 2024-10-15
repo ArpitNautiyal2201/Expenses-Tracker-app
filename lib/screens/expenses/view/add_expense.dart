@@ -26,6 +26,8 @@ class _AddExpenseState extends State<AddExpense> {
     'travel',
   ];
 
+  String selectedIcon = '';
+
   @override
   void initState() {
     dateController.text = DateFormat('d/M/y, EEE').format(DateTime.now());
@@ -159,8 +161,10 @@ class _AddExpenseState extends State<AddExpense> {
                                         border: OutlineInputBorder(
                                             borderRadius: isExpended
                                                 ? const BorderRadius.only(
-                                                    topLeft: Radius.circular(15),
-                                                    topRight: Radius.circular(15))
+                                                    topLeft:
+                                                        Radius.circular(15),
+                                                    topRight:
+                                                        Radius.circular(15))
                                                 : BorderRadius.circular(15),
                                             borderSide: BorderSide.none),
                                         hintText: "Icon",
@@ -170,27 +174,57 @@ class _AddExpenseState extends State<AddExpense> {
                                   ),
                                   isExpended
                                       ? Container(
-                                          width: MediaQuery.of(context).size.width,
+                                          width:
+                                              MediaQuery.of(context).size.width,
                                           height: 200,
                                           decoration: const BoxDecoration(
                                             color: Colors.white,
                                             borderRadius: BorderRadius.only(
                                                 bottomLeft: Radius.circular(15),
-                                                bottomRight: Radius.circular(15)),
+                                                bottomRight:
+                                                    Radius.circular(15)),
                                           ),
-                                          child: GridView.builder(
-                                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                                              itemCount: category.length,
-                                              itemBuilder: (context, int i) {
-                                                return Container(
-                                                  width: 25,
-                                                  height: 25,
-                                                  decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                          image: AssetImage(
-                                                              'assets/${category[i]}.png'))),
-                                                );
-                                              }),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: GridView.builder(
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 4,
+                                                  mainAxisSpacing: 5,
+                                                  crossAxisSpacing: 5,
+                                                ),
+                                                itemCount: category.length,
+                                                itemBuilder: (context, int i) {
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        selectedIcon =
+                                                            category[i];
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      width: 25,
+                                                      height: 25,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              width: 2,
+                                                              color: selectedIcon ==
+                                                                      category[
+                                                                          i]
+                                                                  ? Colors
+                                                                      .redAccent
+                                                                  : Colors
+                                                                      .grey),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          image: DecorationImage(
+                                                              image: AssetImage(
+                                                                  'assets/${category[i]}.png'))),
+                                                    ),
+                                                  );
+                                                }),
+                                          ),
                                         )
                                       : Container(),
                                 ],
