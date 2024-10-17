@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -25,8 +26,6 @@ class _AddExpenseState extends State<AddExpense> {
     'tech',
     'travel',
   ];
-
-  String selectedIcon = '';
 
   @override
   void initState() {
@@ -87,6 +86,9 @@ class _AddExpenseState extends State<AddExpense> {
                       context: context,
                       builder: (ctx) {
                         bool isExpended = false;
+                        String selectedIcon = '';
+                        Color colorCategory = Colors.white;
+
                         return StatefulBuilder(builder: (context, setState) {
                           return AlertDialog(
                             title: const Text("Create Category"),
@@ -119,11 +121,51 @@ class _AddExpenseState extends State<AddExpense> {
                                   ),
                                   TextFormField(
                                     readOnly: true,
+                                    onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (ctx2) {
+                                            return AlertDialog(
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  ColorPicker(
+                                                    pickerColor: colorCategory,
+                                                    onColorChanged: (value) {
+                                                      setState(() {
+                                                        colorCategory = value;
+                                                      });
+                                                    },
+                                                  ),
+                                                  SizedBox(
+                                                    width: double.infinity,
+                                                    height: 40,
+                                                    child: TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(ctx2);
+                                                        },
+                                                        style: TextButton.styleFrom(
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .blueAccent),
+                                                        child: const Text(
+                                                          "Save Now",
+                                                          style: TextStyle(
+                                                            fontSize: 20,
+                                                            color: Colors.white,
+                                                          ),
+                                                        )),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          });
+                                    },
                                     // controller: dateController,
                                     decoration: InputDecoration(
                                         isDense: true,
                                         filled: true,
-                                        fillColor: Colors.white,
+                                        fillColor: colorCategory,
                                         prefixIcon: const Icon(
                                           Icons.color_lens,
                                           size: 16.7,
@@ -227,6 +269,26 @@ class _AddExpenseState extends State<AddExpense> {
                                           ),
                                         )
                                       : Container(),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    height: kToolbarHeight,
+                                    child: TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        style: TextButton.styleFrom(
+                                            backgroundColor: Colors.blueAccent),
+                                        child: const Text(
+                                          "Save Now",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                          ),
+                                        )),
+                                  )
                                 ],
                               ),
                             ),
