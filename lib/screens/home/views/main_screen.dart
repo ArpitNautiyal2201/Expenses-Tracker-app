@@ -24,7 +24,8 @@ class MainScreen extends StatelessWidget {
                           height: 50,
                           decoration: const BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.orangeAccent),
+                              color: Colors.pinkAccent
+                              ),
                         ),
                         const Icon(
                           Icons.person_3_rounded,
