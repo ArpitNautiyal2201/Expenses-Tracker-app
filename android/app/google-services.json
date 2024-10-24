@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1005427276878",
+    "project_id": "expenso-cal",
+    "storage_bucket": "expenso-cal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005427276878:android:9406e0407b2461282c171f",
+        "android_client_info": {
+          "package_name": "com.example.expenso_cal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBywPdbgJ3b_t_f3u88vSpkNHrVW92sW9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
