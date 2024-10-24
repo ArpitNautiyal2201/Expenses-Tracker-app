@@ -1,7 +1,11 @@
+import 'package:expenso_cal/screens/expenses/blocs/create_category_bloc/create_category_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:repository_expenses/repository_expenses.dart';
+import 'package:uuid/uuid.dart';
 
 class AddExpense extends StatefulWidget {
   const AddExpense({super.key});
@@ -88,8 +92,14 @@ class _AddExpenseState extends State<AddExpense> {
                         bool isExpended = false;
                         String selectedIcon = '';
                         Color colorCategory = Colors.white;
+                        TextEditingController categoryNameController =
+                            TextEditingController();
+                        TextEditingController categoryIconController =
+                            TextEditingController();
+                        TextEditingController categoryColorController =
+                            TextEditingController();
 
-                        return StatefulBuilder(builder: (context, setState) {
+                        return StatefulBuilder(builder: (ctx, setState) {
                           return AlertDialog(
                             title: const Text("Create Category"),
                             content: SizedBox(
@@ -98,7 +108,7 @@ class _AddExpenseState extends State<AddExpense> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   TextFormField(
-                                    // controller: dateController,
+                                    controller: categoryNameController,
                                     decoration: InputDecoration(
                                         isDense: true,
                                         filled: true,
@@ -120,43 +130,47 @@ class _AddExpenseState extends State<AddExpense> {
                                     height: 15,
                                   ),
                                   TextFormField(
+                                    controller: categoryColorController,
                                     readOnly: true,
                                     onTap: () {
                                       showDialog(
                                           context: context,
                                           builder: (ctx2) {
-                                            return AlertDialog(
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  ColorPicker(
-                                                    pickerColor: colorCategory,
-                                                    onColorChanged: (value) {
-                                                      setState(() {
-                                                        colorCategory = value;
-                                                      });
-                                                    },
-                                                  ),
-                                                  SizedBox(
-                                                    width: double.infinity,
-                                                    height: 40,
-                                                    child: TextButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(ctx2);
-                                                        },
-                                                        style: TextButton.styleFrom(
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .blueAccent),
-                                                        child: const Text(
-                                                          "Save Now",
-                                                          style: TextStyle(
-                                                            fontSize: 20,
-                                                            color: Colors.white,
-                                                          ),
-                                                        )),
-                                                  )
-                                                ],
+                                            return BlocProvider.value(
+                                              value: context.read<CreateCategoryBloc>(),
+                                              child: AlertDialog(
+                                                content: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    ColorPicker(
+                                                      pickerColor: colorCategory,
+                                                      onColorChanged: (value) {
+                                                        setState(() {
+                                                          colorCategory = value;
+                                                        });
+                                                      },
+                                                    ),
+                                                    SizedBox(
+                                                      width: double.infinity,
+                                                      height: 40,
+                                                      child: TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(ctx2);
+                                                          },
+                                                          style: TextButton.styleFrom(
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .blueAccent),
+                                                          child: const Text(
+                                                            "Save Now",
+                                                            style: TextStyle(
+                                                              fontSize: 20,
+                                                              color: Colors.white,
+                                                            ),
+                                                          )),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             );
                                           });
@@ -183,6 +197,7 @@ class _AddExpenseState extends State<AddExpense> {
                                     height: 15,
                                   ),
                                   TextFormField(
+                                    controller: categoryIconController,
                                     onTap: () {
                                       setState(() {
                                         isExpended = !isExpended;
@@ -277,8 +292,18 @@ class _AddExpenseState extends State<AddExpense> {
                                     height: kToolbarHeight,
                                     child: TextButton(
                                         onPressed: () {
-                                          
-                                          Navigator.pop(context);
+                                          Category category = Category.empty;
+                                          category.categoryID =
+                                              const Uuid().v1();
+                                          category.name =
+                                              categoryNameController.text;
+                                          category.icon = selectedIcon;
+                                          category.color =
+                                              colorCategory.toString();
+                                          context
+                                              .read<CreateCategoryBloc>()
+                                              .add(CreateCategory(category));
+                                          // Navigator.pop(context);
                                         },
                                         style: TextButton.styleFrom(
                                             backgroundColor: Colors.blueAccent),

@@ -1,7 +1,10 @@
 import 'package:expenso_cal/screens/Stats/stats.dart';
+import 'package:expenso_cal/screens/expenses/blocs/create_category_bloc/create_category_bloc.dart';
 import 'package:expenso_cal/screens/expenses/view/add_expense.dart';
 import 'package:expenso_cal/screens/home/views/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repository_expenses/repository_expenses.dart';
 
 class homeScreen extends StatefulWidget {
   const homeScreen({super.key});
@@ -51,9 +54,14 @@ class _homeScreenState extends State<homeScreen> {
           Navigator.push(
             context, 
             MaterialPageRoute<void>(
-              builder: (BuildContext context)=>const AddExpense()
-            )
-          );
+              builder: (BuildContext context) => BlocProvider(
+                create: (context) => CreateCategoryBloc(
+                  FirebaseExpenseRepo()
+                ),
+                child: const AddExpense(),
+              )
+            
+          ));
         },
         shape: const CircleBorder(),
         child: Container(
