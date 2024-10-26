@@ -1,6 +1,7 @@
 import 'package:expenso_cal/screens/home/views/home_screen.dart';
 import 'package:flutter/material.dart';
 
+// ignore: camel_case_types
 class My_App_View extends StatelessWidget {
   const My_App_View({super.key});
 

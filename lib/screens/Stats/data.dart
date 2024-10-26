@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:fl_chart/fl_chart.dart';
 
 class MyChart extends StatefulWidget {

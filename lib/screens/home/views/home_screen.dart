@@ -1,11 +1,13 @@
 import 'package:expenso_cal/screens/Stats/stats.dart';
 import 'package:expenso_cal/screens/expenses/blocs/create_category_bloc/create_category_bloc.dart';
+import 'package:expenso_cal/screens/expenses/blocs/get_Category/get_category_bloc.dart';
 import 'package:expenso_cal/screens/expenses/view/add_expense.dart';
 import 'package:expenso_cal/screens/home/views/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repository_expenses/repository_expenses.dart';
 
+// ignore: camel_case_types
 class homeScreen extends StatefulWidget {
   const homeScreen({super.key});
 
@@ -13,6 +15,7 @@ class homeScreen extends StatefulWidget {
   State<homeScreen> createState() => _homeScreenState();
 }
 
+// ignore: camel_case_types
 class _homeScreenState extends State<homeScreen> {
   var pagesData = [
     const MainScreen(),
@@ -52,16 +55,22 @@ class _homeScreenState extends State<homeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-            context, 
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) => BlocProvider(
-                create: (context) => CreateCategoryBloc(
-                  FirebaseExpenseRepo()
-                ),
-                child: const AddExpense(),
-              )
-            
-          ));
+              context,
+              MaterialPageRoute<void>(
+                  builder: (BuildContext context) => MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (context) =>
+                                CreateCategoryBloc(FirebaseExpenseRepo()),
+                          ),
+                          BlocProvider(
+                            create: (context) => GetCategoiesBloc(FirebaseExpenseRepo())..add(
+                              GetCategories()
+                            ),
+                          ),
+                        ],
+                        child: const AddExpense(),
+                      )));
         },
         shape: const CircleBorder(),
         child: Container(

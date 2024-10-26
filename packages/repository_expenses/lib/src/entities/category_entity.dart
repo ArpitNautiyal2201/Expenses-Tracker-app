@@ -3,7 +3,7 @@ class CategoryEntity {
   String name;
   int expensesTotal;
   String icon;
-  String color;
+  int color;
 
   CategoryEntity({
     required this.categoryID,
