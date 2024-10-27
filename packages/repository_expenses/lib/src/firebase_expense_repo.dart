@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:repository_expenses/repository_expenses.dart';
 import 'package:repository_expenses/src/entities/category_entity.dart';
+import 'package:repository_expenses/src/entities/expense_entity.dart';
 
 class FirebaseExpenseRepo implements ExpenseRepository {
   final categoryCollection =
@@ -41,6 +42,18 @@ class FirebaseExpenseRepo implements ExpenseRepository {
           .set(expense.toEntity().toDocument());
     } catch (e) {
       log(e.toString() as num);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<Expense>> getExpenses() async {
+    try {
+      final snapshot = await expenseCollection.get(); // Get all documents in the collection
+      return snapshot.docs.map((e) => Expense.fromEntity(ExpenseEntity.fromDocument(e.data()))).toList();
+    } catch (e) {
+      // ignore: avoid_print
+      print(e.toString());
       rethrow;
     }
   }

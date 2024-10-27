@@ -1,8 +1,13 @@
-import 'package:expenso_cal/data/data.dart';
+import 'package:expenso_cal/login.dart';
+import 'package:expenso_cal/services/authenication.dart';
+import 'package:expenso_cal/widget/button.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:repository_expenses/repository_expenses.dart';
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  final List<Expense> expenses;
+  const MainScreen(this.expenses, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +28,7 @@ class MainScreen extends StatelessWidget {
                           width: 50,
                           height: 50,
                           decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.pinkAccent
-                              ),
+                              shape: BoxShape.circle, color: Colors.pinkAccent),
                         ),
                         const Icon(
                           Icons.person_3_rounded,
@@ -55,8 +58,14 @@ class MainScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.settings_rounded)),
+                MyButton(
+                  onTab: () async {
+                    await AuthServices().signOut();
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => const LoginScreen()));
+                  },
+                  text: "Log Out",
+                ),
               ],
             ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
@@ -228,76 +237,82 @@ class MainScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: transactionsData.length,
-                itemBuilder: (context, int i) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
+                  itemCount: expenses.length,
+                  itemBuilder: (context, int i) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Stack(
-                                alignment: Alignment.center,
+                              Row(
                                 children: [
-                                  Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                      color: transactionsData[i]['Color'],
-                                      shape: BoxShape.circle
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                            color: Color(
+                                                expenses[i].category.color),
+                                            shape: BoxShape.circle),
+                                      ),
+                                      Image.asset(
+                                        'assets/${expenses[i].category.icon}.png',
+                                        scale: 11.2,
+                                      ),
+                                      // const Icon(Icons.food_bank_rounded,color: Colors.white,)
+                                      // transactionsData[i]['Icon'],
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    width: 14,
+                                  ),
+                                  Text(
+                                    expenses[i].category.name,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  // const Icon(Icons.food_bank_rounded,color: Colors.white,)
-                                  transactionsData[i]['Icon'],
                                 ],
                               ),
-                              const SizedBox(width: 14,),
-                              Text(
-                                transactionsData[i]['Name'],
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.w600,
-                                ), 
-                              ),
-                              
-                            ],
-                          ),
-                          Column(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    transactionsData[i]['Total Amount'],
+                                    "Rs.${expenses[i].amount}.00",
                                     style: const TextStyle(
                                       fontSize: 13,
                                       color: Colors.black87,
                                       fontWeight: FontWeight.w400,
-                                    ), 
+                                    ),
                                   ),
                                   Text(
-                                    transactionsData[i]['Date'],
+                                    DateFormat('dd/MM/yyyy')
+                                        .format(expenses[i].date),
                                     style: const TextStyle(
                                       fontSize: 13,
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w400,
-                                    ), 
+                                    ),
                                   ),
                                 ],
                               )
-                        ],
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              }),
+                    );
+                  }),
             )
           ],
         ),

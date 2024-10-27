@@ -1,5 +1,8 @@
+import 'package:expenso_cal/screens/home/blocs/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:expenso_cal/screens/home/views/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repository_expenses/repository_expenses.dart';
 
 // ignore: camel_case_types
 class My_App_View extends StatelessWidget {
@@ -18,7 +21,10 @@ class My_App_View extends StatelessWidget {
         secondary: const Color(0xFFE064F7),
         tertiary: const Color(0xFFFF8D6C),
       )),
-      home: const homeScreen(),
+      home: BlocProvider(
+        create: (context) => GetExpensesBloc(FirebaseExpenseRepo())..add(GetExpenses()),
+        child: const homeScreen(),
+      ),
     );
   }
 }
