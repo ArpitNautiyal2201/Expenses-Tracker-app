@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:expenso_cal/app_view.dart';
 import 'package:expenso_cal/signup.dart';
 import 'package:expenso_cal/widget/button.dart';

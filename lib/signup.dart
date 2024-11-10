@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:expenso_cal/app_view.dart';
 import 'package:expenso_cal/login.dart';
 import 'package:expenso_cal/services/authenication.dart';
