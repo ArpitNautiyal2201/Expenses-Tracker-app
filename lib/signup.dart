@@ -2,12 +2,12 @@
 
 import 'package:expenso_cal/app_view.dart';
 import 'package:expenso_cal/login.dart';
-import 'package:expenso_cal/services/authenication.dart';
 import 'package:expenso_cal/widget/snack_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'widget/button.dart';
 import 'widget/text_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -105,5 +105,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ],
           ),
         )));
+  }
+}
+
+class AuthServices {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<String> signUpUser({
+    required String email,
+    required String password,
+    required String name,
+  }) async {
+    try {
+      UserCredential cred = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+
+      await cred.user!.updateDisplayName(name);
+      await cred.user!.reload(); 
+
+      return "success";
+    } on FirebaseAuthException catch (e) {
+      return e.message ?? "An error occurred";
+    } catch (e) {
+      return e.toString();
+    }
   }
 }

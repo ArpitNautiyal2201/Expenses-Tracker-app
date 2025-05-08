@@ -15,13 +15,9 @@ class Category {
     required this.color,
   });
 
-  static final empty = Category(
-      categoryID: '',
-      name: '',
-      expensesTotal: 0,
-      icon: '',
-      color: 0
-    );
+  static final empty =
+      Category(categoryID: '', name: '', expensesTotal: 0,
+       icon: '', color: 0);
 
   CategoryEntity toEntity() {
     return CategoryEntity(
@@ -29,7 +25,8 @@ class Category {
         name: name,
         expensesTotal: expensesTotal,
         icon: icon,
-        color: color);
+        color: color,
+        );
   }
 
   static Category fromEntity(CategoryEntity entity) {
@@ -38,6 +35,7 @@ class Category {
         name: entity.name,
         expensesTotal: entity.expensesTotal,
         icon: entity.icon,
-        color: entity.color);
+        color: entity.color,
+        );
   }
 }

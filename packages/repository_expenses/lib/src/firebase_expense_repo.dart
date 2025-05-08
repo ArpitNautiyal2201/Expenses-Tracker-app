@@ -9,6 +9,7 @@ class FirebaseExpenseRepo implements ExpenseRepository {
   final categoryCollection =
       FirebaseFirestore.instance.collection('categories');
   final expenseCollection = FirebaseFirestore.instance.collection('expenses');
+  final incomeCollection = FirebaseFirestore.instance.collection('income');
 
   @override
   Future<void> createCategory(Category category) async {
@@ -25,8 +26,12 @@ class FirebaseExpenseRepo implements ExpenseRepository {
   @override
   Future<List<Category>> getCategory() async {
     try {
-      final snapshot = await categoryCollection.get(); // Get all documents in the collection
-      return snapshot.docs.map((e) => Category.fromEntity(CategoryEntity.fromDocument(e.data()))).toList();
+      final snapshot =
+          await categoryCollection.get();
+      return snapshot.docs
+          .map(
+              (e) => Category.fromEntity(CategoryEntity.fromDocument(e.data())))
+          .toList();
     } catch (e) {
       // ignore: avoid_print
       print(e.toString());
@@ -49,8 +54,11 @@ class FirebaseExpenseRepo implements ExpenseRepository {
   @override
   Future<List<Expense>> getExpenses() async {
     try {
-      final snapshot = await expenseCollection.get(); // Get all documents in the collection
-      return snapshot.docs.map((e) => Expense.fromEntity(ExpenseEntity.fromDocument(e.data()))).toList();
+      final snapshot =
+          await expenseCollection.get(); // Get all documents in the collection
+      return snapshot.docs
+          .map((e) => Expense.fromEntity(ExpenseEntity.fromDocument(e.data())))
+          .toList();
     } catch (e) {
       // ignore: avoid_print
       print(e.toString());

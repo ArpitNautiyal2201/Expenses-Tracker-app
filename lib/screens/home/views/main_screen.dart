@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:expenso_cal/login.dart';
+import 'package:expenso_cal/screens/home/views/view_all.dart';
 // ignore: implementation_imports
 import 'package:repository_expenses/src/entities/total_expenses.dart';
 import 'package:expenso_cal/services/authenication.dart';
@@ -8,6 +9,7 @@ import 'package:expenso_cal/widget/button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:repository_expenses/repository_expenses.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MainScreen extends StatefulWidget {
   final List<Expense> expenses;
@@ -19,11 +21,18 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   late Future<Map<String, double>> totalExpensesByCategory;
+  String? userName;
 
   @override
   void initState() {
     super.initState();
     totalExpensesByCategory = FirebaseService().getTotalExpensesByCategory();
+    // totalExpenses = FirebaseService().getTotalExpenses();
+
+    final user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      userName = user?.displayName ?? user?.email?.split('@')[0] ?? "User";
+    });
   }
 
   @override
@@ -56,18 +65,18 @@ class _MainScreenState extends State<MainScreen> {
                     const SizedBox(
                       width: 8,
                     ),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Welcome!",
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w400,
                               color: Colors.grey),
                         ),
-                        Text("Arpit Nautiyal",
-                            style: TextStyle(
+                        Text(userName ?? "User",
+                            style: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ))
@@ -101,6 +110,7 @@ class _MainScreenState extends State<MainScreen> {
                   final categoryTotals = snapshot.data;
 
                   if (categoryTotals != null) {
+                    // ignore: avoid_print
                     print("Category Total: $categoryTotals");
                   }
 
@@ -111,6 +121,7 @@ class _MainScreenState extends State<MainScreen> {
                   //double totalIncome = categoryTotals['Income'] ?? 0;
                   double totalExpenses = categoryTotals['Total Expenses'] ?? 0;
 
+                  // ignore: avoid_print
                   print("Total Expenses: $totalExpenses");
 
                   return Container(
@@ -135,9 +146,9 @@ class _MainScreenState extends State<MainScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          "Total Balance",
+                          "Total Expenses",
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 30,
                             color: Colors.white70,
                             fontWeight: FontWeight.w500,
                           ),
@@ -148,108 +159,108 @@ class _MainScreenState extends State<MainScreen> {
                         Text(
                           "₹ ${totalExpenses.toStringAsFixed(2)}",
                           style: const TextStyle(
-                            fontSize: 45,
+                            fontSize: 60,
                             color: Colors.white70,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.blueAccent,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Center(
-                                      child: Icon(
-                                        Icons.arrow_downward_rounded,
-                                        size: 20,
-                                        color: Color.fromARGB(255, 36, 164, 42),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 7,
-                                  ),
-                                  const Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Income",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.white70,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      Text(
-                                        "₹ 50,000",
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.white70,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.blueAccent,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Center(
-                                      child: Icon(
-                                        Icons.arrow_upward_rounded,
-                                        size: 20,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 7,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Expenses",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.white70,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      Text(
-                                        "₹ ${totalExpenses.toStringAsFixed(2)}",
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.white70,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        )
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(
+                        //       vertical: 15, horizontal: 20),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     children: [
+                        //       Row(
+                        //         children: [
+                        //           Container(
+                        //             width: 30,
+                        //             height: 30,
+                        //             decoration: const BoxDecoration(
+                        //               color: Colors.blueAccent,
+                        //               shape: BoxShape.circle,
+                        //             ),
+                        //             child: const Center(
+                        //               child: Icon(
+                        //                 Icons.arrow_downward_rounded,
+                        //                 size: 20,
+                        //                 color: Color.fromARGB(255, 36, 164, 42),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //           const SizedBox(
+                        //             width: 7,
+                        //           ),
+                        //           const Column(
+                        //             crossAxisAlignment:
+                        //                 CrossAxisAlignment.start,
+                        //             children: [
+                        //               Text(
+                        //                 "Income",
+                        //                 style: TextStyle(
+                        //                   fontSize: 13,
+                        //                   color: Colors.white70,
+                        //                   fontWeight: FontWeight.w400,
+                        //                 ),
+                        //               ),
+                        //               Text(
+                        //                 "₹ 0",
+                        //                 style: TextStyle(
+                        //                   fontSize: 15,
+                        //                   color: Colors.white70,
+                        //                   fontWeight: FontWeight.w600,
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           )
+                        //         ],
+                        //       ),
+                        //       Row(
+                        //         children: [
+                        //           Container(
+                        //             width: 30,
+                        //             height: 30,
+                        //             decoration: const BoxDecoration(
+                        //               color: Colors.blueAccent,
+                        //               shape: BoxShape.circle,
+                        //             ),
+                        //             child: const Center(
+                        //               child: Icon(
+                        //                 Icons.arrow_upward_rounded,
+                        //                 size: 20,
+                        //                 color: Colors.red,
+                        //               ),
+                        //             ),
+                        //           ),
+                        //           const SizedBox(
+                        //             width: 7,
+                        //           ),
+                        //           Column(
+                        //             crossAxisAlignment:
+                        //                 CrossAxisAlignment.start,
+                        //             children: [
+                        //               const Text(
+                        //                 "Expenses",
+                        //                 style: TextStyle(
+                        //                   fontSize: 13,
+                        //                   color: Colors.white70,
+                        //                   fontWeight: FontWeight.w400,
+                        //                 ),
+                        //               ),
+                        //               Text(
+                        //                 "₹ ${totalExpenses.toStringAsFixed(2)}",
+                        //                 style: const TextStyle(
+                        //                   fontSize: 15,
+                        //                   color: Colors.white70,
+                        //                   fontWeight: FontWeight.w600,
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           )
+                        //         ],
+                        //       )
+                        //     ],
+                        //   ),
+                        // )
                       ],
                     ),
                   );
@@ -270,7 +281,14 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ViewAllScreen(allExpenses: widget.expenses)),
+                    );
+                  },
                   child: const Text(
                     "View all",
                     style: TextStyle(

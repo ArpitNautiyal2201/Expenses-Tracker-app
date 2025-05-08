@@ -1,12 +1,11 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:expenso_cal/app_view.dart';
-import 'package:expenso_cal/signup.dart';
+import 'package:expenso_cal/password_reset_screen.dart';
 import 'package:expenso_cal/widget/button.dart';
 import 'package:expenso_cal/widget/text_field.dart';
 import 'package:flutter/material.dart';
 
-import 'services/authenication.dart';
+import 'services/authenication.dart' as auth;
+import 'package:expenso_cal/signup.dart';
 import 'widget/snack_bar.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -26,11 +25,10 @@ class _SignupScreenState extends State<LoginScreen> {
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
-    
   }
 
   void loginUser() async {
-    String res = await AuthServices().loginUser(
+    String res = await auth.AuthServices().loginUser(
         email: emailController.text, password: passwordController.text);
 
     if (res == "success") {
@@ -72,17 +70,25 @@ class _SignupScreenState extends State<LoginScreen> {
                   textEditingController: passwordController,
                   hintText: "Enter your Password",
                   icon: Icons.password),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 35),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text("Forget Password",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.blue)),
-                ),
-              ),
+              Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ResetPasswordScreen()),
+                          );
+                        },
+                        child: const Text("Forget Password",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.blue)),
+                      ),
+                    ),
+                  ),
               MyButton(onTab: loginUser, text: "Login"),
               SizedBox(
                 height: height / 15,
